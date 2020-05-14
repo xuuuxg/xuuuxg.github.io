@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>记复习Java</title>
+    <link href="/2020/05/14/java/"/>
+    <url>/2020/05/14/java/</url>
+    
+    <content type="html"><![CDATA[<h2 id="记复习Java"><a href="#记复习Java" class="headerlink" title="记复习Java"></a>记复习Java</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><blockquote><p>一维数组</p></blockquote><pre><code class="hljs plain">int[] arr &#x3D; &#123;0,1,2,3&#125;for(int i &#x3D; 0; i&lt; arr.length; i++) &#123;arr[i];&#125;</code></pre><blockquote><p>二维数组</p></blockquote><pre><code class="hljs plain">int[][] arr &#x3D; new int[10][10];</code></pre><p>在创建数组的过程中会做这么几件事情：</p><ol><li><p>创建一个长度为10的数组</p><pre><code class="hljs plain">int[][] arr &#x3D; new int[10][]</code></pre></li><li><p>遍历再创建长度为10的数组</p></li><li><p>将2创建的数组赋值为0</p><pre><code class="hljs plain">for(int i &#x3D; 0; i&lt; 10; i++) &#123;arr[i] &#x3D; new arr[10];&#125;</code></pre></li></ol><p>我理解二维数组其实是一个变相的一维数组。</p><hr><h5 id="方法变量的修饰符"><a href="#方法变量的修饰符" class="headerlink" title="方法变量的修饰符"></a>方法变量的修饰符</h5><ol><li><p>public</p><blockquote><p>修饰方法、变量,<u>所有类、方法都可以访问</u></p></blockquote></li><li><p>protected</p><blockquote><p>修饰方法、变量,<u>同包下、当前类、父子类可以访问</u></p></blockquote></li><li><p>默认的</p><blockquote><p>修饰方法、变量,同包下、当前类可以访问</p></blockquote></li><li><p>private</p><blockquote><p>修饰方法、变量,<u>当前类可以访问</u></p></blockquote></li></ol><hr><h3 id="this"><a href="#this" class="headerlink" title="this"></a>this</h3><ol><li><p>Java中的this都是隐式调用，如果明确调用自己类中的属性可以用到this。</p><pre><code>public class PerSon {       private int id;       private int getId(int id) {           return this.id = id;                //这里的this就是描述调用类本身的id       }       //忽略set   }</code></pre></li><li><p>构造器内调用另一个构造器，会用到this。</p><pre><code class="hljs plain">@Datapublic class PerSon &#123;private int id;private String name;public PerSon() &#123;this.Cirl(id);&#125;public PerSon(int id) &#123;this.id &#x3D; id;&#125; public PerSon(int id, String name) &#123;this.id &#x3D; id;this.name &#x3D; name;&#125;&#125;</code></pre><p><u>this的限制：只能在构造器中第一行出现</u></p></li><li><p>可以在代码块中使用</p><pre><code class="hljs plain">@Datapublic class PerSon &#123;&#123;this.setId(1);&#125;&#123;this.setName(&quot;小明&quot;);&#125;private int id;private Stirng name;&#125;</code></pre><p><u>上述例子不具备实际开发中的参考，只是示例</u></p></li></ol><hr><h3 id="扩展类"><a href="#扩展类" class="headerlink" title="扩展类"></a>扩展类</h3><ol><li><p>子类继承超类</p><blockquote><p>使用super关键字调用超类构造器</p></blockquote><pre><code class="hljs plain">&#x2F;&#x2F;超类@Datapublic class PerSon &#123;private int id;private String name;public PerSon()&#123;&#125;public PerSon(String name) &#123;this.name &#x3D; name;&#125;&#125;</code></pre><pre><code class="hljs plain">&#x2F;&#x2F;子类public class Man &#123;private int sex;public Man() &#123;&#125;public Man(String name, int sex) &#123;super(name);        &#x2F;&#x2F; 使用超类name属性this.sex &#x3D; sex;&#125;&#125;</code></pre></li><li><p>多超类的this与super</p><pre><code class="hljs plain">&#x2F;&#x2F; 父类@Datapublic class A &#123;private int id;&#125;&#x2F;&#x2F; B继承A@Datapublic class B extends A&#123;private int id;&#125;&#x2F;&#x2F; C继承B@Datapublic class C extends B&#123;private int id;&#125;</code></pre><p>在C内调用方式：</p><blockquote><p>id  C的id</p><p>this.id  C的id</p><p>super(id)  B的id</p><p>((B)this).getId()  B的id</p><p>((A)this).getId()  A的id</p></blockquote></li></ol>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>关于Node调用Java</title>
     <link href="/2020/05/10/node_Java/"/>
     <url>/2020/05/10/node_Java/</url>
