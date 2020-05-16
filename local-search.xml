@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>阿里云OSS上传文件</title>
+    <link href="/2020/05/16/%E9%98%BF%E9%87%8C%E4%BA%91OSS%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/"/>
+    <url>/2020/05/16/%E9%98%BF%E9%87%8C%E4%BA%91OSS%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/</url>
+    
+    <content type="html"><![CDATA[<h2 id="阿里云OSS上传存储文件"><a href="#阿里云OSS上传存储文件" class="headerlink" title="阿里云OSS上传存储文件"></a>阿里云OSS上传存储文件</h2><h3 id="获取accessKeyId、accessKeySecret"><a href="#获取accessKeyId、accessKeySecret" class="headerlink" title="获取accessKeyId、accessKeySecret"></a>获取<u>accessKeyId</u>、<u>accessKeySecret</u></h3><ol><li><p><a href="http://www.xuxinguang.top/oss1.png" target="_blank" rel="noopener">www.xuxinguang.top/oss1.png</a></p></li><li><p><a href="http://www.xuxinguang.top/oss2.png" target="_blank" rel="noopener">www.xuxinguang.top/oss2.png</a></p></li><li><p><a href="http://www.xuxinguang.top/oss3.png" target="_blank" rel="noopener">www.xuxinguang.top/oss3.png</a></p></li><li><p><a href="http://www.xuxinguang.top/oss4.png" target="_blank" rel="noopener">www.xuxinguang.top/oss4.png</a></p></li></ol><hr><h3 id="region与bucket"><a href="#region与bucket" class="headerlink" title="region与bucket"></a>region与bucket</h3><ol><li><p>region有一个对照表</p><blockquote><p><a href="https://www.budongyun.com/region/2706/" target="_blank" rel="noopener">https://www.budongyun.com/region/2706/</a></p></blockquote></li><li><p>创建bucket</p><p><a href="http://www.xuxinguang.top/bucket.png" target="_blank" rel="noopener">www.xuxinguang.top/bucket.png</a></p></li></ol><p>​        然后按照步骤一步一步创建就ok了。</p><hr><h3 id="NodeJS实现"><a href="#NodeJS实现" class="headerlink" title="NodeJS实现"></a>NodeJS实现</h3><p>我使用的是NodeJS来实现的上传图片，因为我觉得没什么必要再上一个Java服务。</p><pre><code class="hljs plain">&#x2F;&#x2F; 安装两个依赖包let OSS &#x3D; require(&#39;ali-oss&#39;)let multer &#x3D; require(&#39;multer&#39;);var app &#x3D; express();app.post(&#39;&#x2F;images&#39;, upload.fields([&#123;  name: &#39;file&#39;&#125;]), function (req, res, next) &#123;  let client &#x3D; new OSS(&#123;    region: &#39;your region&#39;,    accessKeyId: &#39;your accessKeyId&#39;,    accessKeySecret: &#39;your accessKeySecret&#39;,    bucket: &#39;your region&#39;,  &#125;);  try &#123;   &#x2F;&#x2F;第一个参数为图片的名称   第二个参数为图片的buffer流    let result &#x3D; client.put(req.files.file[0].originalname,req.files.file[0].buffer);    res.send(&#39;succss&#39;)  &#125; catch (e) &#123;    res.send(&#39;error&#39;)    console.log(e);  &#125;  &#125;)</code></pre><hr><h3 id="Vue-ElementUI实现"><a href="#Vue-ElementUI实现" class="headerlink" title="Vue ElementUI实现"></a>Vue ElementUI实现</h3><p>使用ElementUI的 <el-upload> 组件</p><pre><code class="hljs plain"> &lt;el-upload class&#x3D;&quot;upload-pic&quot;            action&#x3D;&quot;http:&#x2F;&#x2F;localhost:3000&#x2F;images&quot;     &#x2F;&#x2F;改为你自己的请求路径            :on-preview&#x3D;&quot;handlePreview&quot;            :on-remove&#x3D;&quot;handleRemove&quot;            :on-success&#x3D;&quot;uploadSuccess&quot;            :file-list&#x3D;&quot;fileList&quot;            list-type&#x3D;&quot;picture&quot;&gt;   &lt;el-button size&#x3D;&quot;small&quot;              type&#x3D;&quot;primary&quot;&gt;点击上传&lt;&#x2F;el-button&gt; &lt;&#x2F;el-upload&gt;  ---methods: &#123;   handleRemove (file,fileList) &#123;     console.log(file)   &#125;,   handlePreview (file) &#123;     console.log(file);   &#125;,   uploadSuccess () &#123;   &#125; &#125;</code></pre><hr><p>代码已上传至<a href="https://github.com/xuuuxg" target="_blank" rel="noopener">github</a></p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>记复习Java</title>
     <link href="/2020/05/14/java/"/>
     <url>/2020/05/14/java/</url>
