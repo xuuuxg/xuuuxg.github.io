@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>阿里云OSS上传文件 - xuuuxg</title>
+  <title>关于Spring那些事 - xuuuxg</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -114,8 +114,8 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-05-16 12:16">
-                    2020年5月16日 中午
+                  <time datetime="2020-05-18 00:47">
+                    2020年5月18日 凌晨
                   </time>
                 </div>
               
@@ -125,7 +125,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    334 字
+                    292 字
                   </span>
                 
 
@@ -135,7 +135,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    5
+                    4
                      分钟
                   </span>
                 
@@ -164,85 +164,107 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="阿里云OSS上传存储文件"><a href="#阿里云OSS上传存储文件" class="headerlink" title="阿里云OSS上传存储文件"></a>阿里云OSS上传存储文件</h2><h3 id="获取accessKeyId、accessKeySecret"><a href="#获取accessKeyId、accessKeySecret" class="headerlink" title="获取accessKeyId、accessKeySecret"></a>获取<u>accessKeyId</u>、<u>accessKeySecret</u></h3><ol>
-<li><p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/oss1.png" srcset="/img/loading.gif" alt="对象存储oss"></p>
-</li>
-<li><p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/oss2.png" srcset="/img/loading.gif" alt="点击accessKey"></p>
-</li>
-<li><p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/oss3.png" srcset="/img/loading.gif" alt="使用accessKey"></p>
-</li>
-<li><p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/oss4.png" srcset="/img/loading.gif" alt="生成key"></p>
+              <h2 id="关于Spring那些事"><a href="#关于Spring那些事" class="headerlink" title="关于Spring那些事"></a>关于Spring那些事</h2><h3 id="Spring-IOC"><a href="#Spring-IOC" class="headerlink" title="Spring IOC"></a>Spring IOC</h3><ol>
+<li>什么是IOC？</li>
+</ol>
+<p>这个大家已经非常熟悉了，控制反转。就是将我们的Bean交给Spring容器来控制。</p>
+<ol start="2">
+<li><p>如何使用IOC？</p>
+<ul>
+<li>自动注入</li>
+</ul>
+<pre><code class="hljs plain">&#x2F;&#x2F; 实体类
+@Data
+public class Student &#123;
+	private int id;
+	private String name;
+&#125;</code></pre>
+
+<pre><code class="hljs plain">&#x2F;&#x2F; Repository
+@Repository
+@Mapper
+public class StudentMapper extends BaseMapper&lt;Student&gt;&#123;
+	public User findById(int id);
+&#125;</code></pre>
+
+<pre><code class="hljs plain">&#x2F;&#x2F; Service
+@Service
+public class StudentService &#123;
+
+  &#x2F;&#x2F; 自动注入
+	@Autowired
+	StudentMapper stuMapper;
+	
+	public User findById(int id) &#123;
+		return stuMapper.findById(id);
+	&#125;
+&#125;</code></pre>
+
+<pre><code class="hljs plain">&#x2F;&#x2F; 主类
+@SpringBootApplication
+&#x2F;&#x2F; 扫描注入的包
+@MapperScan(&quot;com.auto.dao.*&quot;)
+public class SpringBootMain &#123;
+
+      public static void main(String[] args) &#123;  
+       SpringApplication.run(App.class, args);  
+      &#125;  
+&#125;</code></pre>
+
+<ul>
+<li>手动set方式注入</li>
+</ul>
+<pre><code class="hljs plain">&#x2F;&#x2F; 实体类
+@Data
+public class Student &#123;
+	private int id;
+	private String name;
+&#125;</code></pre>
+
+<pre><code class="hljs plain">&#x2F;&#x2F; Repository
+@Repository
+@Mapper
+public class StudentMapper extends BaseMapper&lt;Student&gt;&#123;
+	public User findById(int id);
+&#125;</code></pre>
+
+<pre><code class="hljs plain">&#x2F;&#x2F; Service
+@Service
+public class StudentService &#123;
+
+	StudentMapper stuMapper;
+	
+	public void setStuMapper(StudentMapper stuMapper) &#123;
+		this.stuMapper &#x3D; stuMapper;
+	&#125;
+	public User findById(int id) &#123;
+		return stuMapper.findById(id);
+	&#125;
+&#125;</code></pre>
+
+<pre><code class="hljs plain">&#x2F;&#x2F; config类
+@Configuration
+public class config &#123;
+
+  &#x2F;&#x2F; 手动注入Bean
+	@Bean
+	public StudentMapper mapper() &#123;
+		return new StudentMapper();
+	&#125;
+	
+	@Bean
+	public StudentService stuService() &#123;
+		StudentService s &#x3D; new StudentService();
+		StudentMapper sM &#x3D; new StudentMapper();
+		s.setStuMapper(sM);
+	&#125;
+&#125;</code></pre>
+
+<p>以上代码为两种方式的注入方式。</p>
 </li>
 </ol>
 <hr>
-<h3 id="region与bucket"><a href="#region与bucket" class="headerlink" title="region与bucket"></a>region与bucket</h3><ol>
-<li><p>region有一个对照表</p>
-<blockquote>
-<p><a href="https://www.budongyun.com/region/2706/" target="_blank" rel="noopener">https://www.budongyun.com/region/2706/</a></p>
-</blockquote>
-</li>
-<li><p>创建bucket</p>
-<p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/bucket.png" srcset="/img/loading.gif" alt="创建bucket"></p>
-</li>
-</ol>
-<p>​        然后按照步骤一步一步创建就ok了。</p>
-<hr>
-<h3 id="NodeJS实现"><a href="#NodeJS实现" class="headerlink" title="NodeJS实现"></a>NodeJS实现</h3><p>我使用的是NodeJS来实现的上传图片，因为我觉得没什么必要再上一个Java服务。</p>
-<pre><code class="hljs plain">&#x2F;&#x2F; 安装两个依赖包
-let OSS &#x3D; require(&#39;ali-oss&#39;)
-let multer &#x3D; require(&#39;multer&#39;);
-
-var app &#x3D; express();
-
-app.post(&#39;&#x2F;images&#39;, upload.fields([&#123;
-  name: &#39;file&#39;
-&#125;]), function (req, res, next) &#123;
-  let client &#x3D; new OSS(&#123;
-    region: &#39;your region&#39;,
-    accessKeyId: &#39;your accessKeyId&#39;,
-    accessKeySecret: &#39;your accessKeySecret&#39;,
-    bucket: &#39;your region&#39;,
-  &#125;);
-
-  try &#123;
-   &#x2F;&#x2F;第一个参数为图片的名称   第二个参数为图片的buffer流
-    let result &#x3D; client.put(req.files.file[0].originalname,req.files.file[0].buffer);
-    res.send(&#39;succss&#39;)
-  &#125; catch (e) &#123;
-    res.send(&#39;error&#39;)
-    console.log(e);
-  &#125;
-  
-&#125;)</code></pre>
-
-<hr>
-<h3 id="Vue-ElementUI实现"><a href="#Vue-ElementUI实现" class="headerlink" title="Vue ElementUI实现"></a>Vue ElementUI实现</h3><p>使用ElementUI的 <el-upload> 组件</p>
-<pre><code class="hljs plain"> &lt;el-upload class&#x3D;&quot;upload-pic&quot;
-            action&#x3D;&quot;http:&#x2F;&#x2F;localhost:3000&#x2F;images&quot;     &#x2F;&#x2F;改为你自己的请求路径
-            :on-preview&#x3D;&quot;handlePreview&quot;
-            :on-remove&#x3D;&quot;handleRemove&quot;
-            :on-success&#x3D;&quot;uploadSuccess&quot;
-            :file-list&#x3D;&quot;fileList&quot;
-            list-type&#x3D;&quot;picture&quot;&gt;
-   &lt;el-button size&#x3D;&quot;small&quot;
-              type&#x3D;&quot;primary&quot;&gt;点击上传&lt;&#x2F;el-button&gt;
- &lt;&#x2F;el-upload&gt;
- 
- 
----
-
-methods: &#123;
-   handleRemove (file,fileList) &#123;
-     console.log(file)
-   &#125;,
-   handlePreview (file) &#123;
-     console.log(file);
-   &#125;,
-   uploadSuccess () &#123;
-   &#125;
- &#125;</code></pre>
-
-
+<p>   持续更新</p>
 
             </article>
             <hr>
@@ -259,18 +281,12 @@ methods: &#123;
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/2020/05/18/%E5%85%B3%E4%BA%8ESpring%E9%82%A3%E4%BA%9B%E4%BA%8B/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">关于Spring那些事</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/05/14/java/">
-                        <span class="hidden-mobile">记复习Java</span>
+                      <a href="/2020/05/16/%E9%98%BF%E9%87%8C%E4%BA%91OSS%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/">
+                        <span class="hidden-mobile">阿里云OSS上传文件</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -409,7 +425,7 @@ methods: &#123;
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "阿里云OSS上传文件&nbsp;",
+        "关于Spring那些事&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>关于Spring那些事</title>
+    <link href="/2020/05/18/%E5%85%B3%E4%BA%8ESpring%E9%82%A3%E4%BA%9B%E4%BA%8B/"/>
+    <url>/2020/05/18/%E5%85%B3%E4%BA%8ESpring%E9%82%A3%E4%BA%9B%E4%BA%8B/</url>
+    
+    <content type="html"><![CDATA[<h2 id="关于Spring那些事"><a href="#关于Spring那些事" class="headerlink" title="关于Spring那些事"></a>关于Spring那些事</h2><h3 id="Spring-IOC"><a href="#Spring-IOC" class="headerlink" title="Spring IOC"></a>Spring IOC</h3><ol><li>什么是IOC？</li></ol><p>这个大家已经非常熟悉了，控制反转。就是将我们的Bean交给Spring容器来控制。</p><ol start="2"><li><p>如何使用IOC？</p><ul><li>自动注入</li></ul><pre><code class="hljs plain">&#x2F;&#x2F; 实体类@Datapublic class Student &#123;private int id;private String name;&#125;</code></pre><pre><code class="hljs plain">&#x2F;&#x2F; Repository@Repository@Mapperpublic class StudentMapper extends BaseMapper&lt;Student&gt;&#123;public User findById(int id);&#125;</code></pre><pre><code class="hljs plain">&#x2F;&#x2F; Service@Servicepublic class StudentService &#123;  &#x2F;&#x2F; 自动注入@AutowiredStudentMapper stuMapper;public User findById(int id) &#123;return stuMapper.findById(id);&#125;&#125;</code></pre><pre><code class="hljs plain">&#x2F;&#x2F; 主类@SpringBootApplication&#x2F;&#x2F; 扫描注入的包@MapperScan(&quot;com.auto.dao.*&quot;)public class SpringBootMain &#123;      public static void main(String[] args) &#123;         SpringApplication.run(App.class, args);        &#125;  &#125;</code></pre><ul><li>手动set方式注入</li></ul><pre><code class="hljs plain">&#x2F;&#x2F; 实体类@Datapublic class Student &#123;private int id;private String name;&#125;</code></pre><pre><code class="hljs plain">&#x2F;&#x2F; Repository@Repository@Mapperpublic class StudentMapper extends BaseMapper&lt;Student&gt;&#123;public User findById(int id);&#125;</code></pre><pre><code class="hljs plain">&#x2F;&#x2F; Service@Servicepublic class StudentService &#123;StudentMapper stuMapper;public void setStuMapper(StudentMapper stuMapper) &#123;this.stuMapper &#x3D; stuMapper;&#125;public User findById(int id) &#123;return stuMapper.findById(id);&#125;&#125;</code></pre><pre><code class="hljs plain">&#x2F;&#x2F; config类@Configurationpublic class config &#123;  &#x2F;&#x2F; 手动注入Bean@Beanpublic StudentMapper mapper() &#123;return new StudentMapper();&#125;@Beanpublic StudentService stuService() &#123;StudentService s &#x3D; new StudentService();StudentMapper sM &#x3D; new StudentMapper();s.setStuMapper(sM);&#125;&#125;</code></pre><p>以上代码为两种方式的注入方式。</p></li></ol><hr><p>   持续更新</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>阿里云OSS上传文件</title>
     <link href="/2020/05/16/%E9%98%BF%E9%87%8C%E4%BA%91OSS%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/"/>
     <url>/2020/05/16/%E9%98%BF%E9%87%8C%E4%BA%91OSS%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/</url>
