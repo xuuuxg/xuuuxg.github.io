@@ -139,15 +139,41 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/18/%E5%85%B3%E4%BA%8ESpring%E9%82%A3%E4%BA%9B%E4%BA%8B/">关于Spring那些事</a>
+      <a class="index-header" href="/2020/05/24/%E5%85%B3%E4%BA%8ESpring%E9%82%A3%E4%BA%9B%E4%BA%8B/">关于Spring那些事</a>
 
-      <a href="/2020/05/18/%E5%85%B3%E4%BA%8ESpring%E9%82%A3%E4%BA%9B%E4%BA%8B/" class="index-excerpt">
+      <a href="/2020/05/24/%E5%85%B3%E4%BA%8ESpring%E9%82%A3%E4%BA%9B%E4%BA%8B/" class="index-excerpt">
         
         
           
         
-        <div>关于Spring那些事Spring IOC
+        <div>关于Spring那些事
+
+
+名称
+进度
+
+
+
+Spring IOC
+100%
+
+
+Spring AOP
+
+
+
+拦截器
+
+
+
+监听器
+
+
+
+
+Spring IOC
 什么是IOC？
+
 这个大家已经非常熟悉了，控制反转。就是将我们的Bean交给Spring容器来控制。
 
 如何使用IOC？
@@ -157,17 +183,13 @@
 &#x2F;&#x2F; 实体类
 @Data
 public class Student &#123;
-	private int id;
-	private String name;
-&#125;
-
-&#x2F;&#x2F; </div>
+</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-18
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-24
           </div>
         
         
@@ -180,14 +202,98 @@ public class Student &#123;
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/16/%E9%98%BF%E9%87%8C%E4%BA%91OSS%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/">阿里云OSS上传文件</a>
+      <a class="index-header" href="/2020/05/24/java/">记Java复习</a>
+
+      <a href="/2020/05/24/java/" class="index-excerpt">
+        
+        
+          
+        
+        <div>记Java复习数组
+一维数组
+
+int[] arr &#x3D; &#123;0,1,2,3&#125;
+for(int i &#x3D; 0; i&lt; arr.length; i++) &#123;
+	arr[i];
+&#125;
+
+
+二维数组
+
+int[][] arr &#x3D; new int[10][10];
+
+在创建数组的过程中会做这么几件事情：
+
+创建一个长度为10的数组
+int</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-24
+          </div>
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/05/24/MybatisPlus%E5%A4%9A%E7%A7%9F%E6%88%B7/">MybatisPlus多租户</a>
+
+      <a href="/2020/05/24/MybatisPlus%E5%A4%9A%E7%A7%9F%E6%88%B7/" class="index-excerpt">
+        
+        
+          
+        
+        <div>MybatisPlus多租户
+MybatisPlus 官方API 
+
+多租户种类
+独立数据库
+共享数据库，独立Scama
+共享数据库，共享Scama（MybatisPlus实现）
+
+多租户实现
+我的思路是让多租户的拦截器对系统是没有侵入的
+所以采用了监听器的的方式来获取前端传来的租户ID
+当然也可以采用将租户ID存在session内或者cookie内
+
+拦截器代码
+@WebListener
+pub</div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>&nbsp;2020-05-24
+          </div>
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a class="index-header" href="/2020/05/16/%E9%98%BF%E9%87%8C%E4%BA%91OSS%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/">阿里云OSS上传图片</a>
 
       <a href="/2020/05/16/%E9%98%BF%E9%87%8C%E4%BA%91OSS%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/" class="index-excerpt">
         
         
           
         
-        <div>阿里云OSS上传存储文件获取accessKeyId、accessKeySecret
+        <div>
+title:阿里云OSS上传文件阿里云OSS上传存储文件获取accessKeyId、accessKeySecret
 
 
 
@@ -210,55 +316,13 @@ https://www.budongyun.com/region/2706/
 
 ​        然后按照步骤一步一步创建就ok了。
 
-NodeJS实现我使用的是NodeJS来实现的上传图片，因为我觉得没什么必要再</div>
+NodeJS实现我使用的是NodeJS来实现</div>
       </a>
 
       <div class="index-btm post-metas">
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>&nbsp;2020-05-16
-          </div>
-        
-        
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a class="index-header" href="/2020/05/14/java/">记复习Java</a>
-
-      <a href="/2020/05/14/java/" class="index-excerpt">
-        
-        
-          
-        
-        <div>记复习Java数组
-一维数组
-
-int[] arr &#x3D; &#123;0,1,2,3&#125;
-for(int i &#x3D; 0; i&lt; arr.length; i++) &#123;
-	arr[i];
-&#125;
-
-
-二维数组
-
-int[][] arr &#x3D; new int[10][10];
-
-在创建数组的过程中会做这么几件事情：
-
-创建一个长度为10的数组
-int</div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>&nbsp;2020-05-14
           </div>
         
         

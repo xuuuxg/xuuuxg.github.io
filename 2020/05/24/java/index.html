@@ -17,7 +17,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>关于Spring那些事 - xuuuxg</title>
+  <title>记Java复习 - xuuuxg</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
@@ -114,8 +114,8 @@
               
                 <div class="mt-3 post-meta">
                   <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-                  <time datetime="2020-05-18 00:47">
-                    2020年5月18日 凌晨
+                  <time datetime="2020-05-24 21:58">
+                    2020年5月24日 晚上
                   </time>
                 </div>
               
@@ -125,7 +125,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    292 字
+                    857 字
                   </span>
                 
 
@@ -135,7 +135,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    4
+                    13
                      分钟
                   </span>
                 
@@ -164,106 +164,278 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="关于Spring那些事"><a href="#关于Spring那些事" class="headerlink" title="关于Spring那些事"></a>关于Spring那些事</h2><h3 id="Spring-IOC"><a href="#Spring-IOC" class="headerlink" title="Spring IOC"></a>Spring IOC</h3><ol>
-<li><p>什么是IOC？</p>
-<p>这个大家已经非常熟悉了，控制反转。就是将我们的Bean交给Spring容器来控制。</p>
+              <h2 id="记Java复习"><a href="#记Java复习" class="headerlink" title="记Java复习"></a>记Java复习</h2><h3 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h3><blockquote>
+<p>一维数组</p>
+</blockquote>
+<pre><code class="hljs plain">int[] arr &#x3D; &#123;0,1,2,3&#125;
+for(int i &#x3D; 0; i&lt; arr.length; i++) &#123;
+	arr[i];
+&#125;</code></pre>
+
+<blockquote>
+<p>二维数组</p>
+</blockquote>
+<pre><code class="hljs plain">int[][] arr &#x3D; new int[10][10];</code></pre>
+
+<p>在创建数组的过程中会做这么几件事情：</p>
+<ol>
+<li><p>创建一个长度为10的数组</p>
+<pre><code class="hljs plain">int[][] arr &#x3D; new int[10][]</code></pre>
 </li>
-<li><p>如何使用IOC？</p>
-<ul>
-<li>自动注入</li>
-</ul>
-<pre><code class="hljs plain">&#x2F;&#x2F; 实体类
-@Data
-public class Student &#123;
-	private int id;
-	private String name;
+<li><p>遍历再创建长度为10的数组</p>
+</li>
+<li><p>将2创建的数组赋值为0</p>
+<pre><code class="hljs plain">for(int i &#x3D; 0; i&lt; 10; i++) &#123;
+	arr[i] &#x3D; new arr[10];
 &#125;</code></pre>
 
-<pre><code class="hljs plain">&#x2F;&#x2F; Repository
-@Repository
-@Mapper
-public class StudentMapper extends BaseMapper&lt;Student&gt;&#123;
-	public User findById(int id);
-&#125;</code></pre>
-
-<pre><code class="hljs plain">&#x2F;&#x2F; Service
-@Service
-public class StudentService &#123;
-
-  &#x2F;&#x2F; 自动注入
-	@Autowired
-	StudentMapper stuMapper;
-	
-	public User findById(int id) &#123;
-		return stuMapper.findById(id);
-	&#125;
-&#125;</code></pre>
-
-<pre><code class="hljs plain">&#x2F;&#x2F; 主类
-@SpringBootApplication
-&#x2F;&#x2F; 扫描注入的包
-@MapperScan(&quot;com.auto.dao.*&quot;)
-public class SpringBootMain &#123;
-
-      public static void main(String[] args) &#123;  
-       SpringApplication.run(App.class, args);  
-      &#125;  
-&#125;</code></pre>
-
-<ul>
-<li>手动set方式注入</li>
-</ul>
-<pre><code class="hljs plain">&#x2F;&#x2F; 实体类
-@Data
-public class Student &#123;
-	private int id;
-	private String name;
-&#125;</code></pre>
-
-<pre><code class="hljs plain">&#x2F;&#x2F; Repository
-@Repository
-@Mapper
-public class StudentMapper extends BaseMapper&lt;Student&gt;&#123;
-	public User findById(int id);
-&#125;</code></pre>
-
-<pre><code class="hljs plain">&#x2F;&#x2F; Service
-@Service
-public class StudentService &#123;
-
-	StudentMapper stuMapper;
-	
-	public void setStuMapper(StudentMapper stuMapper) &#123;
-		this.stuMapper &#x3D; stuMapper;
-	&#125;
-	public User findById(int id) &#123;
-		return stuMapper.findById(id);
-	&#125;
-&#125;</code></pre>
-
-<pre><code class="hljs plain">&#x2F;&#x2F; config类
-@Configuration
-public class config &#123;
-
-  &#x2F;&#x2F; 手动注入Bean
-	@Bean
-	public StudentMapper mapper() &#123;
-		return new StudentMapper();
-	&#125;
-	
-	@Bean
-	public StudentService stuService() &#123;
-		StudentService s &#x3D; new StudentService();
-		StudentMapper sM &#x3D; new StudentMapper();
-		s.setStuMapper(sM);
-	&#125;
-&#125;</code></pre>
-
-<p>以上代码为两种方式的注入方式。</p>
+</li>
+</ol>
+<p>我理解二维数组其实是一个变相的一维数组。</p>
+<hr>
+<h3 id="方法变量的修饰符"><a href="#方法变量的修饰符" class="headerlink" title="方法变量的修饰符"></a>方法变量的修饰符</h3><ol>
+<li><p>public</p>
+<blockquote>
+<p>修饰方法、变量,<u>所有类、方法都可以访问</u></p>
+</blockquote>
+</li>
+<li><p>protected</p>
+<blockquote>
+<p>修饰方法、变量,<u>同包下、当前类、父子类可以访问</u></p>
+</blockquote>
+</li>
+<li><p>默认的</p>
+<blockquote>
+<p>修饰方法、变量,同包下、当前类可以访问</p>
+</blockquote>
+</li>
+<li><p>private</p>
+<blockquote>
+<p>修饰方法、变量,<u>当前类可以访问</u></p>
+</blockquote>
 </li>
 </ol>
 <hr>
-<p>   持续更新</p>
+<h3 id="this"><a href="#this" class="headerlink" title="this"></a>this</h3><ol>
+<li><p>Java中的this都是隐式调用，如果明确调用自己类中的属性可以用到this。</p>
+<pre><code>public class PerSon {
+
+       private int id;
+
+       private int getId(int id) {
+           return this.id = id;     
+           //这里的this就是描述调用类本身的id
+       }
+
+       //忽略set
+   }</code></pre></li>
+<li><p>构造器内调用另一个构造器，会用到this。</p>
+<pre><code class="hljs plain">@Data
+public class PerSon &#123;
+
+	private int id;
+	private String name;
+	
+	public PerSon() &#123;
+		this.Cirl(id);
+	&#125;
+	
+	public PerSon(int id) &#123;
+		this.id &#x3D; id;
+	&#125; 
+	
+	public PerSon(int id, String name) &#123;
+		this.id &#x3D; id;
+		this.name &#x3D; name;
+	&#125;
+&#125;</code></pre>
+
+<p><u>this的限制：只能在构造器中第一行出现</u></p>
+</li>
+<li><p>可以在代码块中使用</p>
+<pre><code class="hljs plain">@Data
+public class PerSon &#123;
+	&#123;
+		this.setId(1);
+	&#125;
+	&#123;
+		this.setName(&quot;小明&quot;);
+	&#125;
+	
+	private int id;
+	
+	private Stirng name;
+&#125;</code></pre>
+
+<p><u>上述例子不具备实际开发中的参考，只是示例</u></p>
+</li>
+</ol>
+<hr>
+<h3 id="扩展类"><a href="#扩展类" class="headerlink" title="扩展类"></a>扩展类</h3><ol>
+<li><p>子类继承超类</p>
+<blockquote>
+<p>使用super关键字调用超类构造器</p>
+</blockquote>
+<pre><code class="hljs plain">&#x2F;&#x2F;超类
+@Data
+public class PerSon &#123;
+
+	private int id;
+	
+	private String name;
+	
+	public PerSon()&#123;&#125;
+	
+	public PerSon(String name) &#123;
+		this.name &#x3D; name;
+	&#125;
+&#125;</code></pre>
+
+<pre><code class="hljs plain">&#x2F;&#x2F;子类
+public class Man &#123;
+
+	private int sex;
+	
+	public Man() &#123;&#125;
+	
+	public Man(String name, int sex) &#123;
+		super(name);        &#x2F;&#x2F; 使用超类name属性
+		this.sex &#x3D; sex;
+	&#125;
+&#125;</code></pre>
+</li>
+<li><p>多超类的this与super</p>
+<pre><code class="hljs plain">&#x2F;&#x2F; 父类
+@Data
+public class A &#123;
+	private int id;
+&#125;
+
+&#x2F;&#x2F; B继承A
+@Data
+public class B extends A&#123;
+	private int id;
+&#125;
+
+&#x2F;&#x2F; C继承B
+@Data
+public class C extends B&#123;
+	private int id;
+&#125;</code></pre>
+
+<p>在C内调用方式：</p>
+<blockquote>
+<p>id  C的id</p>
+<p>this.id  C的id</p>
+<p>super(id)  B的id</p>
+<p>((B)this).getId()  B的id</p>
+<p>((A)this).getId()  A的id</p>
+</blockquote>
+</li>
+</ol>
+<hr>
+<h3 id="线程"><a href="#线程" class="headerlink" title="线程"></a>线程</h3><ol>
+<li><p>关于创建线程的两种方式</p>
+<ul>
+<li>继承Thread</li>
+</ul>
+<pre><code class="hljs plain">public class TestThread extends Thread &#123;
+    &#x2F;&#x2F; 实现run方法
+    public void run() &#123;
+        &#x2F;&#x2F; 实现逻辑
+    &#125;
+&#125;</code></pre>
+
+<p>启动线程</p>
+<pre><code class="hljs plain">public class RunThread &#123;
+	public static void main(String...args) &#123;
+		TestThread th &#x3D; new TestThread();
+		th.start();
+	&#125;
+&#125;</code></pre>
+
+<ul>
+<li>实现Runnable</li>
+</ul>
+<pre><code class="hljs plain">public class TestRunnable implement Runnable &#123;
+   	@Override
+   	public void run() &#123;
+   		&#x2F;&#x2F; 业务逻辑
+   	&#125;
+   &#125;</code></pre>
+
+<p>启动线程</p>
+<pre><code class="hljs plain">public class RunTestRunnable &#123;
+   	public static void main(String...args) &#123;
+   		TestRunnable tr &#x3D; new TestRunnable();
+   		tr.start();
+   	&#125;
+   &#125;</code></pre>
+</li>
+<li><p>关于线程传参两种方式</p>
+<ul>
+<li>set方式传参</li>
+</ul>
+<pre><code class="hljs plain">public class TestRunnableParam &#123;
+	
+	&#x2F;&#x2F; 参数实体或属性
+	private String name;
+	
+	&#x2F;&#x2F; 可写可不写 无惨构造为隐式调用
+	public TestRunnableParam() &#123;&#125;
+	
+	public String getName() &#123;
+		this.name &#x3D; name;
+	&#125;
+	
+	public void setName(String name) &#123;
+		this.name &#x3D; name;
+	&#125;
+		
+	
+&#125;</code></pre>
+
+<p>启动线程</p>
+<pre><code class="hljs plain">public class RunTestRunnableParam &#123;
+	public static void main(String...args) &#123;
+		String name &#x3D; &quot;小明&quot;
+		TestRunnableParam tr &#x3D; new TestRunnableParam();
+		tr.setName(name);
+		tr.start();
+	&#125;
+&#125;</code></pre>
+
+
+
+</li>
+</ol>
+<ul>
+<li><p>构造传参</p>
+<pre><code class="hljs plain">public class TestRunnableParam &#123;
+	
+	&#x2F;&#x2F; 参数实体或属性
+	private String name;
+	
+	public TestRunnableParam() &#123;&#125;
+		
+	public TestRunnableParam(String name) &#123;
+		this.name &#x3D; name;
+	&#125;
+&#125;</code></pre>
+
+<pre><code class="hljs plain">public class RunTestRunnableParam &#123;
+	public static void main(String...args) &#123;
+		String name &#x3D; &quot;小明&quot;
+		TestRunnableParam tr &#x3D; new TestRunnableParam(name);
+		tr.start();
+	&#125;
+&#125;</code></pre>
+
+</li>
+</ul>
+<ol start="3">
+<li>线程锁</li>
+</ol>
 
             </article>
             <hr>
@@ -280,12 +452,18 @@ public class config &#123;
                   <div class="post-prev col-6">
                     
                     
+                      <a href="/2020/05/24/%E5%85%B3%E4%BA%8ESpring%E9%82%A3%E4%BA%9B%E4%BA%8B/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">关于Spring那些事</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/2020/05/16/%E9%98%BF%E9%87%8C%E4%BA%91OSS%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/">
-                        <span class="hidden-mobile">阿里云OSS上传文件</span>
+                      <a href="/2020/05/24/MybatisPlus%E5%A4%9A%E7%A7%9F%E6%88%B7/">
+                        <span class="hidden-mobile">MybatisPlus多租户</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
@@ -424,7 +602,7 @@ public class config &#123;
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "关于Spring那些事&nbsp;",
+        "记Java复习&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
