@@ -125,7 +125,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    665 字
+                    0 字
                   </span>
                 
 
@@ -135,7 +135,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    10
+                    1
                      分钟
                   </span>
                 
@@ -164,179 +164,7 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              <h2 id="RabbitMQ学习"><a href="#RabbitMQ学习" class="headerlink" title="RabbitMQ学习"></a>RabbitMQ学习</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ol>
-<li>安装Erlang依赖</li>
-</ol>
-<blockquote>
-<p><a href="[https://www.erlang-solutions.com/resources/download.html">Erlang下载官网</a> 下载对应系统的安装包</p>
-</blockquote>
-<p><img src="http://www.xuxinguang.top/Erlang.png" srcset="/img/loading.gif" alt=""></p>
-<p>安装完毕后安装RabbitMQ Server</p>
-<blockquote>
-<p><a href="https://www.rabbitmq.com/download.html" target="_blank" rel="noopener">RabbitMQ官网</a> </p>
-</blockquote>
-<p><img src="http://www.xuxinguang.top/rabbitMQ.png" srcset="/img/loading.gif" alt=""></p>
-<p>如果不安装RabbitMQ Server就会出现连接错误</p>
-<p><img src="http://www.xuxinguang.top/error1.png" srcset="/img/loading.gif" alt=""></p>
-<h3 id="启动可视化"><a href="#启动可视化" class="headerlink" title="启动可视化"></a>启动可视化</h3><ol>
-<li><p>进入安装目录</p>
-<ul>
-<li><p>我安装的是D盘  进入 <u>D:\RabbitMQServer\rabbitmq_server-3.8.4\sbin</u></p>
-</li>
-<li><p>查看用户</p>
-<pre><code class="hljs plain">rabbitmqctl list_users</code></pre>
-
-<p>默认有一个guest用户，默认密码guest。这个用户有mq所有的权限。</p>
-<p><img src="http://www.xuxinguang.top/rabbitMQInstall1.png" srcset="/img/loading.gif" alt=""></p>
-<p>我们也可以创建一个自己的用户</p>
-<pre><code class="hljs plain">rabbitmqctl add_user  xxg  xxg       --创建用户 xxg  密码为 xxg 
-
-rabbitmqctl  set_permissions  xxg &quot;.*&quot;  &quot;.*&quot;  &quot;.*&quot;    --赋予xxg读写所有消息队列的权限
-
-rabbitmqctl  set_user_tags xxg administrator    --分配用户组</code></pre>
-
-<p><img src="http://www.xuxinguang.top/rabbitMQInstall2.png" srcset="/img/loading.gif" alt=""></p>
-<p><img src="http://www.xuxinguang.top/rabbitMQInstall3.png" srcset="/img/loading.gif" alt=""></p>
-<p><img src="http://www.xuxinguang.top/rabbitMQInstall4.png" srcset="/img/loading.gif" alt=""></p>
-<p>开启插件：</p>
-<pre><code class="hljs plain">rabbitmq-plugins enable rabbitmq_management</code></pre>
-
-<p>查看地址 <a href="http://IP:15672" target="_blank" rel="noopener">http://IP:15672</a>    使用创建的用户名进行登录</p>
-<p><img src="http://www.xuxinguang.top/rabbitMQInstall5.png" srcset="/img/loading.gif" alt=""></p>
-</li>
-</ul>
-</li>
-</ol>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>有五种交换机模式，分别为 广播模式、直接模式、扇形交换机、头交换机、主题交换机。</p>
-<p>当消费者掉线，消息也不会随之丢失。</p>
-<ul>
-<li>首先Maven导入依赖</li>
-</ul>
-<pre><code class="hljs plain">&lt;dependency&gt;
-	&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;
-	&lt;artifactId&gt;spring-boot-starter-amqp&lt;&#x2F;artifactId&gt;
-&lt;&#x2F;dependency&gt;</code></pre>
-
-<ul>
-<li>配置Config</li>
-</ul>
-<pre><code class="hljs plain">import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
-import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.context.annotation.Bean;
-
-public class RabbitMQConfig &#123;
-
-    @Bean
-    public ConnectionFactory connectionFactory() &#123;
-        CachingConnectionFactory connectionFactory &#x3D; new CachingConnectionFactory();
-        connectionFactory.setAddresses(&quot;localhost:5672&quot;);
-        connectionFactory.setUsername(&quot;xxg&quot;);
-        connectionFactory.setPassword(&quot;xxg&quot;);
-        connectionFactory.setPublisherConfirms(true);&#x2F;&#x2F;消息确认
-        connectionFactory.setPublisherReturns(true);
-        return connectionFactory;
-    &#125;
-
-    @Bean
-    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) &#123;
-        RabbitTemplate template &#x3D; new RabbitTemplate(connectionFactory);
-        template.setMessageConverter(new Jackson2JsonMessageConverter());
-        return template;
-    &#125;
-
-    @Bean
-    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) &#123;
-        SimpleRabbitListenerContainerFactory factory &#x3D; new SimpleRabbitListenerContainerFactory();
-        factory.setConnectionFactory(connectionFactory);
-        factory.setMessageConverter(new Jackson2JsonMessageConverter());
-        return factory;
-    &#125;
-&#125;</code></pre>
-
-<ol>
-<li>默认交换机</li>
-</ol>
-<p>默认交换机不需要routingKey来绑定路由，可以直接通过队列名称来实现消息的消费</p>
-<p>生产者</p>
-<pre><code class="hljs plain">@Component
-public class Send &#123;
-
-    private final static String QUEUE_NAME &#x3D; &quot;hello&quot;;
-
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
-
-
-    public void send(String msg) &#123;
-
-        rabbitTemplate.convertAndSend(this.QUEUE_NAME, msg);
-    &#125;
-&#125;</code></pre>
-
-<p>消费者</p>
-<pre><code class="hljs plain">@Component
-@RabbitListener(
-        queuesToDeclare &#x3D; @Queue(&quot;hello&quot;)
-        )
-public class RabbitOnMessage &#123;
-
-    @RabbitHandler
-    public void onMessage(@Payload String msg) &#123;
-        System.out.println(msg);
-    &#125;
-
-&#125;</code></pre>
-
-<p>每当消息生产时后，消费者监听到后就会将该消息消费掉</p>
-<p><img src="http://www.xuxinguang.top/rabbitMQDefault1.png" srcset="/img/loading.gif" alt=""></p>
-<ol start="2">
-<li>直连交换机</li>
-</ol>
-<p>生产者</p>
-<pre><code class="hljs plain">@Component
-public class Send &#123;
-
-    private final static String QUEUE_NAME &#x3D; &quot;hello&quot;;
-
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
-
-
-    public void send(String msg) &#123;
-
-        rabbitTemplate.convertAndSend(this.QUEUE_NAME,&quot;direct&quot;, msg);
-    &#125;
-&#125;</code></pre>
-
-<p>消费者</p>
-<pre><code class="hljs plain">@Component
-@RabbitListener(
-        bindings &#x3D; @QueueBinding(
-        value &#x3D; @Queue(&quot;DirectQueue&quot;),
-        exchange &#x3D; @Exchange(value &#x3D; &quot;hello&quot;, type &#x3D; ExchangeTypes.DIRECT),
-        key &#x3D; &quot;direct&quot;
-))
-public class RabbitOnMessage &#123;
-
-    @RabbitHandler
-    public void onMessage(@Payload String msg) &#123;
-        System.out.println(msg);
-    &#125;
-&#125;</code></pre>
-
-<p>每当消息生产时后，消费者监听到后就会将该消息消费掉</p>
-<p><img src="http://www.xuxinguang.top/rabbitDirect1.png" srcset="/img/loading.gif" alt=""></p>
-<ol start="3">
-<li>扇形交换机</li>
-</ol>
-<ol start="3">
-<li>头交换机</li>
-<li>主题交换机</li>
-</ol>
-
+              
             </article>
             <hr>
             <div>

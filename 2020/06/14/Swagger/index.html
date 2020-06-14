@@ -125,7 +125,7 @@
                   
                   <span class="post-meta mr-2">
                     <i class="iconfont icon-chart"></i>
-                    0 字
+                    1.1k 字
                   </span>
                 
 
@@ -135,7 +135,7 @@
                       <i class="iconfont icon-clock-fill"></i>
                     
                     
-                    1
+                    19
                      分钟
                   </span>
                 
@@ -164,7 +164,221 @@
           <div class="post-content mx-auto" id="post">
             
             <article class="markdown-body">
-              
+              <h2 id="Swagger使用手册"><a href="#Swagger使用手册" class="headerlink" title="Swagger使用手册"></a>Swagger使用手册</h2><blockquote>
+<p><a href="https://www.javadoc.io/doc/io.swagger/swagger-annotations/1.5.0/index.html" target="_blank" rel="noopener">官方注解文档</a></p>
+</blockquote>
+<h3 id="SpringBoot集成Swagger"><a href="#SpringBoot集成Swagger" class="headerlink" title="SpringBoot集成Swagger"></a>SpringBoot集成Swagger</h3><ol>
+<li><p>添加依赖</p>
+<pre><code class="hljs plain">此处为所有依赖
+&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;
+	&lt;artifactId&gt;spring-boot-starter-web&lt;&#x2F;artifactId&gt;
+&lt;&#x2F;dependency&gt;
+   
+&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;
+	&lt;artifactId&gt;spring-boot-starter-test&lt;&#x2F;artifactId&gt;
+	&lt;scope&gt;test&lt;&#x2F;scope&gt;
+&lt;&#x2F;dependency&gt;
+   
+&lt;dependency&gt;
+	&lt;groupId&gt;com.alibaba&lt;&#x2F;groupId&gt;
+	&lt;artifactId&gt;fastjson&lt;&#x2F;artifactId&gt;
+	&lt;version&gt;1.2.41&lt;&#x2F;version&gt;
+&lt;&#x2F;dependency&gt;
+   
+&lt;dependency&gt;
+	&lt;groupId&gt;net.sf.json-lib&lt;&#x2F;groupId&gt;
+	&lt;artifactId&gt;json-lib&lt;&#x2F;artifactId&gt;
+	&lt;version&gt;2.4&lt;&#x2F;version&gt;
+	&lt;classifier&gt;jdk15&lt;&#x2F;classifier&gt;
+&lt;&#x2F;dependency&gt;
+   
+&lt;dependency&gt;
+	&lt;groupId&gt;org.apache.httpcomponents&lt;&#x2F;groupId&gt;
+	&lt;artifactId&gt;httpclient&lt;&#x2F;artifactId&gt;
+	&lt;version&gt;4.3.6&lt;&#x2F;version&gt;
+&lt;&#x2F;dependency&gt;
+   
+&lt;dependency&gt;
+	&lt;groupId&gt;com.baomidou&lt;&#x2F;groupId&gt;
+	&lt;artifactId&gt;mybatis-plus-boot-starter&lt;&#x2F;artifactId&gt;
+	&lt;version&gt;3.3.1.tmp&lt;&#x2F;version&gt;
+&lt;&#x2F;dependency&gt;
+
+&lt;dependency&gt;
+	&lt;groupId&gt;com.alibaba&lt;&#x2F;groupId&gt;
+	&lt;artifactId&gt;druid-spring-boot-starter&lt;&#x2F;artifactId&gt;
+	&lt;version&gt;1.1.9&lt;&#x2F;version&gt;
+&lt;&#x2F;dependency&gt;
+   
+&lt;dependency&gt;
+	&lt;groupId&gt;mysql&lt;&#x2F;groupId&gt;
+	&lt;artifactId&gt;mysql-connector-java&lt;&#x2F;artifactId&gt;
+	&lt;version&gt;5.1.45&lt;&#x2F;version&gt;
+&lt;&#x2F;dependency&gt;
+   
+&lt;!-- https:&#x2F;&#x2F;mvnrepository.com&#x2F;artifact&#x2F;io.springfox&#x2F;springfox-swagger-ui --&gt;
+&lt;dependency&gt;
+	&lt;groupId&gt;io.springfox&lt;&#x2F;groupId&gt;
+	&lt;artifactId&gt;springfox-swagger-ui&lt;&#x2F;artifactId&gt;
+	&lt;version&gt;2.9.2&lt;&#x2F;version&gt;
+&lt;&#x2F;dependency&gt;
+   
+&lt;!-- https:&#x2F;&#x2F;mvnrepository.com&#x2F;artifact&#x2F;io.springfox&#x2F;springfox-swagger2 --&gt;
+&lt;dependency&gt;
+	&lt;groupId&gt;io.springfox&lt;&#x2F;groupId&gt;
+	&lt;artifactId&gt;springfox-swagger2&lt;&#x2F;artifactId&gt;
+	&lt;version&gt;2.9.2&lt;&#x2F;version&gt;
+&lt;&#x2F;dependency&gt;
+   
+&lt;!-- https:&#x2F;&#x2F;mvnrepository.com&#x2F;artifact&#x2F;org.projectlombok&#x2F;lombok --&gt;
+&lt;dependency&gt;
+	&lt;groupId&gt;org.projectlombok&lt;&#x2F;groupId&gt;
+	&lt;artifactId&gt;lombok&lt;&#x2F;artifactId&gt;
+	&lt;version&gt;1.18.12&lt;&#x2F;version&gt;
+	&lt;scope&gt;provided&lt;&#x2F;scope&gt;
+&lt;&#x2F;dependency&gt;</code></pre>
+</li>
+<li><p>配置Config</p>
+<pre><code class="hljs plain">@EnableSwagger2
+@Configuration
+@EnableWebMvc
+public class SwaggerConfig implements WebMvcConfigurer &#123;
+
+
+    @Bean
+    public Docket customDocket() &#123;
+        &#x2F;**
+        这段代码可以不需要添加
+        意义就是可以让使用swagger时带请求头
+        ParameterBuilder ticketPar &#x3D; new ParameterBuilder();
+        List&lt;Parameter&gt; pars &#x3D; new ArrayList&lt;Parameter&gt;();
+        ticketPar.name(&quot;tenantId&quot;).description(&quot;租户ID 为数组[1,2,3,4]&quot;)&#x2F;&#x2F;name表示名称，description表示描述
+                .modelRef(new ModelRef(&quot;string&quot;)).parameterType(&quot;header&quot;)
+                .required(false).defaultValue(&quot;[1]&quot;).build();&#x2F;&#x2F;required表示是否必填，defaultvalue表示默认值
+        pars.add(ticketPar.build());&#x2F;&#x2F;添加完此处一定要把下边的带***的也加上否则不生效
+		**&#x2F;
+        return new Docket(DocumentationType.SWAGGER_2)
+                .select()
+                .apis(RequestHandlerSelectors
+                .basePackage(&quot;com.springapi.controller&quot;))&#x2F;&#x2F;扫描您项目定义路径下的所有
+                .paths(PathSelectors.any())
+                .build()
+                &#x2F;&#x2F;.globalOperationParameters(pars);&#x2F;&#x2F;************把消息头添加;
+    &#125;
+
+    @Override
+    &#x2F;&#x2F; 这个实现方法防止出现访问Swagger出现404
+    public void addResourceHandlers(ResourceHandlerRegistry registry) &#123;
+        registry.addResourceHandler(&quot;swagger-ui.html&quot;)
+                .addResourceLocations(&quot;classpath:&#x2F;META-INF&#x2F;resources&#x2F;&quot;);
+        registry.addResourceHandler(&quot;&#x2F;webjars&#x2F;**&quot;)
+                .addResourceLocations(&quot;classpath:&#x2F;META-INF&#x2F;resources&#x2F;webjars&#x2F;&quot;);
+
+    &#125;
+&#125;</code></pre>
+</li>
+<li><p>定义Controller</p>
+<pre><code class="hljs plain">@Api(value &#x3D; &quot;用户Controller&quot;, tags &#x3D; &#123;&quot;用户操作接口&quot;&#125;)
+@RestController
+@RequestMapping(&quot;&#x2F;users&quot;)
+public class UserController &#123;
+
+    @Autowired
+    UserService userService;
+
+    @RequestMapping(value &#x3D; &quot;&#x2F;user&#x2F;&#123;id&#125;&quot;, method &#x3D; &#123;RequestMethod.GET&#125;)
+    @ApiOperation(value &#x3D; &quot;按照Id查询User&quot;, notes &#x3D; &quot;获取User&quot;)
+    @ApiImplicitParam(name &#x3D; &quot;id&quot;, value &#x3D; &quot;GET UserId required&quot;, dataType &#x3D; &quot;Integer&quot;, paramType &#x3D; &quot;path&quot;)
+    public ResponseEntity getUser(@PathVariable(&quot;id&quot;) Integer id) &#123;
+        return ResponseEntity.ok().body(userService.findUsersById(id));
+    &#125;
+
+&#125;</code></pre>
+</li>
+<li><p>定义Entity</p>
+<pre><code class="hljs plain">@ApiModel
+@Data
+public class UserEntity &#123;
+
+    @ApiModelProperty(notes &#x3D; &quot;userId&quot;, required &#x3D; false)
+    private int id;
+
+    @ApiModelProperty(notes &#x3D; &quot;name&quot;, required &#x3D; false)
+    private String name;
+
+    @ApiModelProperty(notes &#x3D; &quot;tenantId&quot;, hidden &#x3D; true, required &#x3D; false)
+    private int tenantId;
+&#125;</code></pre>
+
+</li>
+</ol>
+<h3 id="启动项目"><a href="#启动项目" class="headerlink" title="启动项目"></a>启动项目</h3><p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/swagger1.png" srcset="/img/loading.gif" alt="请求"></p>
+<p>查看日志可以看见 <u><em>/v2/api-docs</em></u> ,这就是我们以JSON形式返回API的记录</p>
+<p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/swagger3.png" srcset="/img/loading.gif" alt="请求"></p>
+<p>访问swagger-ui <a href="http://IP+PORT/swagger-ui.html#/，可以看到我们定义的接口，以及使用swagger调用接口" target="_blank" rel="noopener">http://IP+PORT/swagger-ui.html#/，可以看到我们定义的接口，以及使用swagger调用接口</a></p>
+<p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/swagger2.png" srcset="/img/loading.gif" alt="请求"></p>
+<h3 id="Swagger-注解列表"><a href="#Swagger-注解列表" class="headerlink" title="Swagger 注解列表"></a>Swagger 注解列表</h3><blockquote>
+<p>具体注解可参考官方注解文档</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="left">注解</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">@Api</td>
+<td>标记在controller类                                                                                              @Api(value = “用户Controller”, tags = {“用户操作接口”})</td>
+</tr>
+<tr>
+<td align="left">@ApiOperation</td>
+<td>标记在controller方法                                                                               @ApiOperation(value = “按照Id查询User”, notes = “获取User”)</td>
+</tr>
+<tr>
+<td align="left">@ApiImplicitParam</td>
+<td>标记在controller方法</td>
+</tr>
+<tr>
+<td align="left">@ApiImplicitParam(name = “id”, value = “GET UserId required”, dataType = “Integer”, paramType = “path”)</td>
+<td></td>
+</tr>
+<tr>
+<td align="left">@ApiImplicitParams</td>
+<td>标记在controller方法（多个参数时使用）                                                                                @ApiImplicitParams({                                                                                      @ApiImplicitParam(name = “id1”, value = “GET UserId required”, dataType = “Integer”, paramType = “path”),                                                                                               @ApiImplicitParam(name = “name”, value = “GET UserName”, dataType = “Integer”, paramType = “path”)                                                                                                })</td>
+</tr>
+<tr>
+<td align="left">@ApiModel</td>
+<td>标记在实体类                                                                                                                               @ApiModel</td>
+</tr>
+<tr>
+<td align="left">@ApiModelProperty</td>
+<td>标记在实体类属性                                                                                                                  @ApiModelProperty(notes = “name”, required = false)</td>
+</tr>
+<tr>
+<td align="left">@ApiParam</td>
+<td>标记在方法传参属性（其实使用上述ApiImplicitParam 可以替代）                                                                                         @ApiParam(name=”id”, value = “用户id”, required = true)</td>
+</tr>
+<tr>
+<td align="left">@ApiResponse</td>
+<td>标记在controller方法（搭配@ApiResponses一起使用）                                                    @ApiResponses(@ApiResponse(code = 400,message = “Invalid”))</td>
+</tr>
+<tr>
+<td align="left">@ApiResponses</td>
+<td>同上</td>
+</tr>
+<tr>
+<td align="left">@Authorization</td>
+<td>略</td>
+</tr>
+<tr>
+<td align="left">@AuthorizationScope</td>
+<td>略</td>
+</tr>
+</tbody></table>
+
             </article>
             <hr>
             <div>
