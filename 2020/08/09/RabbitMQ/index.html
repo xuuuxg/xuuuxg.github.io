@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/18170543.jpeg">
+  <link rel="icon" type="image/png" href="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/18170543.jpeg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>RabbitMQ - xuuuxg</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/highlight.js/9.18.1/styles/github-gist.min.css" />
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_fmb4a04yx8h.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_ijqayz9ro8k.css">
+
+
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>xuuuxg's blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">
+              <i class="iconfont icon-home-fill"></i>
+              首页</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">
+              <i class="iconfont icon-archive-fill"></i>
+              归档</a>
+          </li>
+        
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">
+              <i class="iconfont icon-user-fill"></i>
+              关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/default.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <div class="mt-3 post-meta">
+                  <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+                  <time datetime="2020-08-09 22:21">
+                    2020年8月9日 晚上
+                  </time>
+                </div>
+              
+
+              <div class="mt-1">
+                
+                  
+                  <span class="post-meta mr-2">
+                    <i class="iconfont icon-chart"></i>
+                    1.1k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta mr-2">
+                      <i class="iconfont icon-clock-fill"></i>
+                    
+                    
+                    17
+                     分钟
+                  </span>
+                
+
+                
+              </div>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <article class="markdown-body">
+              <h2 id="RabbitMQ学习"><a href="#RabbitMQ学习" class="headerlink" title="RabbitMQ学习"></a>RabbitMQ学习</h2><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><ol>
+<li>安装Erlang依赖</li>
+</ol>
+<blockquote>
+<p><a href="[https://www.erlang-solutions.com/resources/download.html">Erlang下载官网</a> 下载对应系统的安装包</p>
+</blockquote>
+<p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/Erlang.png" srcset="/img/loading.gif" alt=""></p>
+<p>安装完毕后安装RabbitMQ Server</p>
+<blockquote>
+<p><a href="https://www.rabbitmq.com/download.html" target="_blank" rel="noopener">RabbitMQ官网</a> </p>
+</blockquote>
+<p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/rabbitMQ.png" srcset="/img/loading.gif" alt=""></p>
+<p>如果不安装RabbitMQ Server就会出现连接错误</p>
+<p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/error1.png" srcset="/img/loading.gif" alt=""></p>
+<h3 id="启动可视化"><a href="#启动可视化" class="headerlink" title="启动可视化"></a>启动可视化</h3><ol>
+<li><p>进入安装目录</p>
+<ul>
+<li><p>我安装的是D盘  进入 <u>D:\RabbitMQServer\rabbitmq_server-3.8.4\sbin</u></p>
+</li>
+<li><p>查看用户</p>
+<pre><code class="hljs plain">rabbitmqctl list_users</code></pre>
+
+<p>默认有一个guest用户，默认密码guest。这个用户有mq所有的权限。</p>
+<p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/rabbitMQInstall1.png" srcset="/img/loading.gif" alt=""></p>
+<p>我们也可以创建一个自己的用户</p>
+<pre><code class="hljs plain">rabbitmqctl add_user  xxg  xxg       --创建用户 xxg  密码为 xxg 
+
+rabbitmqctl  set_permissions  xxg &quot;.*&quot;  &quot;.*&quot;  &quot;.*&quot;    --赋予xxg读写所有消息队列的权限
+
+rabbitmqctl  set_user_tags xxg administrator    --分配用户组</code></pre>
+
+<p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/rabbitMQInstall2.png" srcset="/img/loading.gif" alt=""></p>
+<p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/rabbitMQInstall3.png" srcset="/img/loading.gif" alt=""></p>
+<p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/rabbitMQInstall4.png" srcset="/img/loading.gif" alt=""></p>
+<p>开启插件：</p>
+<pre><code class="hljs plain">rabbitmq-plugins enable rabbitmq_management</code></pre>
+
+<p>查看地址 <a href="http://IP:15672" target="_blank" rel="noopener">http://IP:15672</a>    使用创建的用户名进行登录</p>
+<p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/rabbitMQInstall5.png" srcset="/img/loading.gif" alt=""></p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>常用交换机模式，分别为 默认交换机、直连交换机、扇形交换机、主题交换机。</p>
+<p>当消费者掉线，消息也不会随之丢失。</p>
+<ul>
+<li>首先Maven导入依赖</li>
+</ul>
+<pre><code class="hljs plain">&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;
+	&lt;artifactId&gt;spring-boot-starter-amqp&lt;&#x2F;artifactId&gt;
+&lt;&#x2F;dependency&gt;</code></pre>
+
+<ul>
+<li>配置Config</li>
+</ul>
+<pre><code class="hljs plain">import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.context.annotation.Bean;
+
+public class RabbitMQConfig &#123;
+
+    @Bean
+    public ConnectionFactory connectionFactory() &#123;
+        CachingConnectionFactory connectionFactory &#x3D; new CachingConnectionFactory();
+        connectionFactory.setAddresses(&quot;localhost:5672&quot;);
+        connectionFactory.setUsername(&quot;xxg&quot;);
+        connectionFactory.setPassword(&quot;xxg&quot;);
+        connectionFactory.setPublisherConfirms(true);&#x2F;&#x2F;消息确认
+        connectionFactory.setPublisherReturns(true);
+        return connectionFactory;
+    &#125;
+
+    @Bean
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) &#123;
+        RabbitTemplate template &#x3D; new RabbitTemplate(connectionFactory);
+        template.setMessageConverter(new Jackson2JsonMessageConverter());
+        return template;
+    &#125;
+
+    @Bean
+    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) &#123;
+        SimpleRabbitListenerContainerFactory factory &#x3D; new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setMessageConverter(new Jackson2JsonMessageConverter());
+        return factory;
+    &#125;
+&#125;</code></pre>
+
+<ol>
+<li>默认交换机</li>
+</ol>
+<p>默认交换机不需要routingKey来绑定路由，队列名称就是routingkey</p>
+<p>生产者</p>
+<pre><code class="hljs plain">@Component
+public class Send &#123;
+
+    private final static String QUEUE_NAME &#x3D; &quot;hello&quot;;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+
+    public void send(String msg) &#123;
+
+        rabbitTemplate.convertAndSend(this.QUEUE_NAME, msg);
+    &#125;
+&#125;</code></pre>
+
+<p>消费者</p>
+<pre><code class="hljs plain">@Component
+@RabbitListener(
+        queuesToDeclare &#x3D; @Queue(&quot;hello&quot;)
+        )
+public class RabbitOnMessage &#123;
+
+    @RabbitHandler
+    public void onMessage(@Payload String msg) &#123;
+        System.out.println(msg);
+    &#125;
+
+&#125;</code></pre>
+
+<p>每当消息生产时后，消费者监听到后就会将该消息消费掉</p>
+<p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/rabbitMQDefault1.png" srcset="/img/loading.gif" alt=""></p>
+<ol start="2">
+<li>直连交换机</li>
+</ol>
+<p>生产者</p>
+<pre><code class="hljs plain">@Component
+public class Send &#123;
+
+    private final static String EXCHANGE &#x3D; &quot;hello&quot;;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+
+    public void send(String msg) &#123;
+
+        rabbitTemplate.convertAndSend(this.EXCHANGE,&quot;direct&quot;, msg);
+    &#125;
+&#125;</code></pre>
+
+<p>消费者</p>
+<pre><code class="hljs plain">@Component
+@RabbitListener(
+        bindings &#x3D; @QueueBinding(
+        value &#x3D; @Queue(&quot;DirectQueue&quot;),
+        exchange &#x3D; @Exchange(value &#x3D; &quot;hello&quot;, type &#x3D; ExchangeTypes.DIRECT),
+        key &#x3D; &quot;direct&quot;
+))
+public class RabbitOnMessage &#123;
+
+    @RabbitHandler
+    public void onMessage(@Payload String msg) &#123;
+        System.out.println(msg);
+    &#125;
+&#125;</code></pre>
+
+<p>每当消息生产时后，消费者监听到后就会将该消息消费掉</p>
+<p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/rabbitDirect1.png" srcset="/img/loading.gif" alt=""></p>
+<ol start="3">
+<li>扇形交换机</li>
+</ol>
+<blockquote>
+<p>广播模式</p>
+</blockquote>
+<p>通过交换机名称当做routingKey进行队列绑定</p>
+<p>消费者</p>
+<pre><code class="hljs plain">@Component
+@RabbitListeners(&#123;
+        @RabbitListener(
+                bindings &#x3D; @QueueBinding(
+                        value &#x3D; @Queue(&quot;fountQueue1&quot;),
+                        exchange &#x3D; @Exchange(value &#x3D; &quot;fountHello&quot;, type &#x3D; ExchangeTypes.FANOUT),
+                        key &#x3D; &quot;one&quot;)),
+        @RabbitListener(
+                bindings &#x3D; @QueueBinding(
+                        value &#x3D; @Queue(&quot;fountQueue2&quot;),
+                        exchange &#x3D; @Exchange(value &#x3D; &quot;fountHello&quot;, type &#x3D; ExchangeTypes.FANOUT),
+                        key &#x3D; &quot;two&quot;) )
+&#125;)
+public class RabbitOnMessage &#123;
+
+    @RabbitHandler
+    public void onMessage(@Payload String msg) &#123;
+        System.out.println(msg);
+    &#125;
+&#125;</code></pre>
+
+<p>生产者</p>
+<pre><code class="hljs plain">@Component
+public class Send &#123;
+
+    private final static String EXCHANGE &#x3D; &quot;fountHello&quot;;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+
+    public void send(String msg) &#123;
+		&#x2F;&#x2F; 第一个参数：交换机，第二个参数：routingKey（随意），第三个参数为消费字段
+        rabbitTemplate.convertAndSend(this.EXCHANGE, &quot;info&quot;,msg);
+    &#125;
+&#125;</code></pre>
+
+<p>每当消息生产时后，消费者监听到后就会将该消息消费掉</p>
+<p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/fanout1.png" srcset="/img/loading.gif" alt=""></p>
+<ol start="3">
+<li>主题交换机</li>
+</ol>
+<blockquote>
+<p>Topics 模式</p>
+</blockquote>
+<p>创建多个消费者，通过routingKey条件匹配进行消费</p>
+<blockquote>
+<p><em>为匹配一个单词（经实际操作可以匹配两个单词）比如exchange 为 hello.test.topic，匹配规则为</em> *.topic  也可以匹配</p>
+<p> #为匹配一个或多个单词</p>
+</blockquote>
+<p>生产者</p>
+<pre><code class="hljs plain">@Component
+public class Send &#123;
+
+    private final static String Exchange &#x3D; &quot;topic&quot;;
+    private final static String ROUTINGKEY1 &#x3D; &quot;hellop.hello.test.topic&quot;;
+    private final static String ROUTINGKEY2 &#x3D; &quot;hellop.hello.test1.topic&quot;;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+
+    public void send(String msg) &#123;
+
+        rabbitTemplate.convertAndSend(this.Exchange, this.ROUTINGKEY1,msg);
+    &#125;
+
+    public void send2(String msg) &#123;
+
+        rabbitTemplate.convertAndSend(this.Exchange, this.ROUTINGKEY2,msg);
+    &#125;
+&#125;</code></pre>
+
+
+
+<p>消费者</p>
+<pre><code class="hljs plain">@Component
+public class RabbitOnMessage &#123;
+    &#x2F;&#x2F; 匹配一个单词
+    @RabbitListener(
+         bindings &#x3D; @QueueBinding(
+                 value &#x3D; @Queue(&quot;onMessage1&quot;),
+                 exchange &#x3D; @Exchange(value &#x3D; &quot;topic&quot;, type &#x3D; ExchangeTypes.TOPIC),
+                 key &#x3D; &quot;hellop.*.test1.*&quot;
+         )
+    )
+    @RabbitHandler
+    public void onMessage1(@Payload String msg, @Headers Map&lt;String, Object&gt; headers) &#123;
+        System.out.println(headers.get(AmqpHeaders.CONSUMER_QUEUE)+&quot;---&quot;+msg);
+    &#125;
+
+    &#x2F;&#x2F; 匹配多个单词
+    @RabbitListener(
+            bindings &#x3D; @QueueBinding(
+                    value &#x3D; @Queue(&quot;onMessage2&quot;),
+                    exchange &#x3D; @Exchange(value &#x3D; &quot;topic&quot;, type &#x3D; ExchangeTypes.TOPIC),
+                    key &#x3D; &quot;#.topic&quot;
+            )
+    )
+    @RabbitHandler
+    public void onMessage2(@Payload String msg, @Headers Map&lt;String, Object&gt; headers) &#123;
+        System.out.println(headers.get(AmqpHeaders.CONSUMER_QUEUE)+&quot;---&quot;+msg);
+    &#125;
+
+&#125;</code></pre>
+
+<p>消费后的结果</p>
+<p><img src="https://xuuuxgblog.oss-cn-hangzhou.aliyuncs.com/topic1.png" srcset="/img/loading.gif" alt=""></p>
+
+            </article>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/08/09/%E5%85%B3%E4%BA%8ESpring%E9%82%A3%E4%BA%9B%E4%BA%8B/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">关于Spring那些事</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/2020/05/24/java/">
+                        <span class="hidden-mobile">记Java复习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+     
+      <a rel="nofollow noopener">
+        <span>hello world</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/js/main.js" ></script>
+
+
+  <script  src="/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.11.1/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "RabbitMQ&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      searchFunc(path, 'local-search-input', 'local-search-result');
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
